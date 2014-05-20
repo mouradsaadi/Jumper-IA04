@@ -1,0 +1,364 @@
+@import "variables.less";
+
+// Style for small mobile vertical
+@media only screen and (max-width: @xxs-screen-width) {
+
+}
+
+// Style for mobile vertical
+@media only screen and (min-width: @xxs-screen-width) and (max-width: @xs-screen-width) { 
+  #LoadingOverlayDiv {
+        width:80%;
+        font-size:small;
+        #LoadingOverlaytext {
+          
+        }
+        #LoadingOverlayImage {
+          .scale(0.5);
+        }
+  }
+	#thumbnailDisplay:not(.mosaicMode) {
+     	canvas[id*="thumbnailCanvas"], div[id*="cam"] {
+     		/*width: @tn-phoneV-width !important;
+     		height: @tn-default-height !important;*/
+     		margin-bottom: -3px;
+     	}
+     }
+     
+     #OmniPlayer.normal, .OverlayDiv, #thumbnailDisplay {
+     	width: @screen-phoneV-width;
+     }
+     
+     #LandingOverlayImage {
+		height: @screen-phoneV-height + @tn-default-height;
+	}
+     
+     #VideoDisplay {
+     	height: auto;
+     	
+     	div {
+     		height: @screen-phoneV-height;
+     		width: @screen-phoneV-width;
+     	}
+     }
+     
+     #VideoSlider { 
+		&.VideoSlider {
+			margin-left: 5px;
+		}
+	}
+	
+	#VolumeSlider { 
+		&.ui-slider-horizontal.VolumeSlider {
+			display: none;
+		}
+	}
+	
+	#VideoDisplayManager {
+		&.Right {
+			#thumbnailDisplay:not(.mosaicMode) {
+				float: none !important;
+				display: block !important;
+			}
+		}
+		
+		&.Left {
+			#thumbnailDisplay:not(.mosaicMode) {
+				float: none !important;
+				display: block !important;
+			}
+		}
+	}
+     
+}
+
+
+// Style for mobile horizontal
+@media only screen and (min-width: @xs-screen-width) and (max-width: @s-screen-width) {
+  #LoadingOverlayDiv {
+        width:60%;
+        font-size:small;
+        #LoadingOverlaytext {
+          
+        }
+        #LoadingOverlayImage {
+          .scale(0.7);
+        }
+  }
+	#thumbnailDisplay:not(.mosaicMode) {    	
+     	canvas[id*="thumbnailCanvas"], div[id*="cam"] {
+     		/*width: @tn-phoneH-width !important;
+     		height: @tn-default-height !important;*/
+     		margin-bottom: -3px;
+     	}
+     }
+     
+     #OmniPlayer.normal, .OverlayDiv, #thumbnailDisplay {
+     	width: @screen-phoneH-width;
+     }
+     
+     #LandingOverlayImage {
+		height: @screen-phoneH-height + @tn-default-height;
+	}
+	
+	div#menuBar {
+     	display: none;
+     }
+     
+     #VideoDisplay {
+     	height: auto;
+     	
+     	div {
+        height: @screen-phoneH-height;
+        width: @screen-phoneH-width;
+      }
+     }
+     
+     #VideoDisplayManager {
+		&.Right {
+			#thumbnailDisplay:not(.mosaicMode) {
+				width: 100% !important;
+				float: none !important;
+				display: block !important;
+			}
+		}
+		
+		&.Left {
+			#thumbnailDisplay:not(.mosaicMode) {
+				width: 100% !important;
+				float: none !important;
+				display: block !important;
+			}
+		}
+	}
+}
+
+// Style for tablet
+@media only screen and (min-width: @s-screen-width) and (max-width: @m-screen-width) {	
+  #LoadingOverlayDiv {
+        width:45%;
+        font-size:small;
+        #LoadingOverlaytext {
+          
+        }
+        #LoadingOverlayImage {
+          .scale(0.7);
+        }
+  }
+	#thumbnailDisplay:not(.mosaicMode) {
+     	canvas[id*="thumbnailCanvas"], div[id*="cam"] {
+     		/*width: @tn-tablet-width !important;
+     		height: @tn-default-height !important;*/
+     		margin-bottom: -3px;
+     	}
+     }
+     
+     #OmniPlayer.normal, .OverlayDiv, #thumbnailDisplay {
+     	width: @screen-tablet-width;
+     }
+     
+     #LandingOverlayImage {
+		height: @screen-tablet-height + @tn-default-height;
+	}
+     
+     div#menuBar {
+     	display: none;
+     }
+     
+     #VideoDisplay {
+     	height: auto;
+     	
+     	div {
+        height: @screen-tablet-height;
+        width: @screen-tablet-width;
+      }
+     }
+     
+     #VideoDisplayManager {
+		&.Right {
+			height: 410px;
+			
+			#thumbnailDisplay:not(.mosaicMode) {
+				width: 90px;
+				float: right;
+				height: 100%;
+			}
+			
+			#VideoDisplay {
+				canvas {
+		     		width: @screen-tablet-width - 95;
+		     	}
+			}
+		}
+		
+		&.Left {
+			height: 410px;
+			
+			#thumbnailDisplay:not(.mosaicMode) {
+				width: 90px;
+				float: left;
+				height: 100%;
+			}
+			
+			#VideoDisplay {
+				canvas {
+		     		width: @screen-tablet-width - 95;
+		     	}
+			}
+		}
+	}
+}
+
+// Style for desktop
+@media only screen and (min-width: @m-screen-width) and (max-width: @l-screen-width) {
+  #LoadingOverlayDiv {
+        width:45%;
+        font-size:medium;
+        #LoadingOverlaytext {
+          
+        }
+        #LoadingOverlayImage {
+          .scale(0.8);
+        }
+  }
+	#thumbnailDisplay:not(.mosaicMode), div[id*="cam"] {    	
+     	canvas[id*="thumbnailCanvas"] {
+     		/*width: @tn-desktop-width !important;
+     		height: @tn-default-height !important;*/
+     		margin-bottom: -3px;
+     	}
+     }
+     
+     #LandingOverlayImage {
+		height: @screen-desktop-height + @tn-default-height;
+	}
+	
+	#OmniPlayer.normal, .OverlayDiv, #thumbnailDisplay {
+     	width: @screen-desktop-width;
+     	
+     }
+     
+     div#menuBar {
+     	display: none;
+     }
+   
+     #VideoDisplay {
+     	height: auto;
+     	
+     	
+     	div {
+        height: @screen-desktop-height;
+        width: @screen-desktop-width;
+      }
+     } 
+     
+     #VideoDisplayManager {
+     	/*height: 100%;*/
+     	
+     	
+		&.Right {		
+			#thumbnailDisplay:not(.mosaicMode) {
+				width: 90px;
+				float: right;
+				height: 100%;
+			}
+			
+			#VideoDisplay {
+				canvas {
+		     		width: @screen-desktop-width - 95;
+		     	}
+		     	div {
+            width: @screen-desktop-width - 95;
+          }
+			}
+		}
+		
+		&.Left {			
+			#thumbnailDisplay:not(.mosaicMode) {
+				width: 90px;
+				float: left;
+				height: 100%;
+			}
+			
+			#VideoDisplay {
+				canvas {
+		     		width: @screen-desktop-width - 95;
+		     	}
+			}
+		}
+	}
+}
+
+// Style for wide desktop
+@media only screen and (min-width: @l-screen-width) {
+  #LoadingOverlayDiv {
+        width:45%;
+        font-size:medium;
+        #LoadingOverlaytext {
+          
+        }
+        #LoadingOverlayImage {
+          .scale(0.8);
+        }
+  }
+	#thumbnailDisplay:not(.mosaicMode) {    	
+     	canvas[id*="thumbnailCanvas"], div[id*="cam"] {
+     		/*width: @tn-l-desktop-width !important;
+     		height: @tn-default-height !important;*/
+     		margin-bottom: -3px;
+     	}
+     }
+     
+     #OmniPlayer.normal, .OverlayDiv, #thumbnailDisplay {
+     	width: @screen-l-desktop-width;
+     }
+     
+     #LandingOverlayImage {
+		height: @screen-l-desktop-height + @tn-default-height;
+	}
+        
+     div#menuBar {
+     	display: none;
+     }
+     
+     #VideoDisplay {
+     	height: auto;
+     	
+     	div {
+        height: @screen-desktop-height;
+        width: @screen-desktop-width;
+      }
+     } 
+     
+     #VideoDisplayManager {
+     	/*height: 100%;*/
+     	
+		&.Right {	
+			#thumbnailDisplay:not(.mosaicMode) {
+				width: 90px;
+				float: right;
+				height: 100%;
+			}
+			
+			#VideoDisplay {
+				canvas {
+		     		width: @screen-l-desktop-width - 95;
+		     	}
+			}
+		}
+		
+		&.Left {
+			#thumbnailDisplay:not(.mosaicMode) {
+				width: 90px;
+				float: left;
+				height: 100%;
+			}
+			
+			#VideoDisplay {
+				canvas {
+		     		width: @screen-l-desktop-width - 95;
+		     	}
+			}
+		}
+	} 
+}

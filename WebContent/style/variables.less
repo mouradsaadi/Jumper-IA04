@@ -1,0 +1,94 @@
+/* Default width of the player */
+@default-player-width: 750px;
+
+/* Default size of canvas */
+@default-canvas-width: 640px;
+@default-canvas-height: 360px;
+
+/* Extra Extra small screen / phone - vertical */
+@xxs-screen-width: 320px;
+@screen-phoneV-width: 320px;
+@screen-phoneV-height: floor((@screen-phoneV-width*@default-canvas-height)/@default-canvas-width);
+
+/* Extra small screen / phone - horizontal */
+@xs-screen-width: 480px;
+@screen-phoneH-width: 480px;
+@screen-phoneH-height: floor((@screen-phoneH-width*@default-canvas-height)/@default-canvas-width);
+
+/* Small screen / tablet - vertical */
+@s-screen-width: 768px;
+/*@s-screen-width: 800px;*/
+@screen-tablet-width: @default-player-width;
+@screen-tablet-height: floor((@screen-tablet-width*@default-canvas-height)/@default-canvas-width);
+
+/* Medium screen / desktop */
+@m-screen-width: 992px;
+@screen-desktop-width: @default-player-width;
+@screen-desktop-height: floor((@screen-desktop-width*@default-canvas-height)/@default-canvas-width);
+
+/* Large screen / wide desktop*/
+@l-screen-width: 1200px;
+@screen-l-desktop-width: @default-player-width;
+@screen-l-desktop-height: floor((@screen-l-desktop-width*@default-canvas-height)/@default-canvas-width); 
+
+
+/* Thumbnail default height */ 
+@tn-default-height: 50px;
+
+/* Thumbnail width for extra small sceen / phone - vertical */ 
+@tn-phoneV-width: floor((@tn-default-height*320)/240);
+
+/* Thumbnail width for extra small sceen / phone - horizontal */ 
+@tn-phoneH-width: floor((@tn-default-height*480)/360);
+
+/* Thumbnail width for small sceen / tablet */
+@tn-tablet-width: floor((@tn-default-height*640)/360);
+
+/* Thumbnail width for medium sceen / desktop */
+@tn-desktop-width: floor((@tn-default-height*854)/480);
+
+/* Thumbnail width for large sceen / wide desktop */ 
+@tn-l-desktop-width: floor((@tn-default-height*1280)/720);
+
+/*Vignette text variable*/
+@vignette-font-familly: "Arial";
+@vignette-font-size: 8px;
+
+/* Control bar height */
+@controlBar-height: 30px;
+
+/* background for sprite */
+.background-icon(@x-position, @y-position, @x-size:820px, @y-size:428px) {
+	background: url("../assets/sprite.png") no-repeat transparent;
+	background-position: @x-position @y-position;
+	background-size: @x-size @y-size;
+}
+
+
+#less {
+  .default_player_width { width: @default-player-width; }
+  .default_canvas_width { width: @default-canvas-width; }
+  .default_canvas_height{ height: @default-canvas-height; }
+  .xxs_screen_width { width: @xxs-screen-width; }
+  .screen_phoneV_width { width: @screen-phoneV-width; }
+  .screen_phoneV_height { height: @screen-phoneV-height; }
+  .xs_screen_width { width: @xs-screen-width; }
+  .screen_phoneH_width { width: @screen-phoneH-width ; }
+  .screen_phoneH_height { height: @screen-phoneH-height; }
+  .s_screen_width { width: @s-screen-width; }
+  .screen_tablet_width { width: @screen-tablet-width; }
+  .screen_tablet_height { height: @screen-tablet-height; }
+  .m_screen_width { width: @m-screen-width; }
+  .screen_desktop_width { width: @screen-desktop-width; }
+  .screen_desktop_height { height: @screen-desktop-height; }
+  .l_screen_width { width: @l-screen-width; }
+  .screen_l_desktop_width { width: @screen-l-desktop-width; }
+  .screen_l_desktop_height { height: @screen-l-desktop-height; }
+  .tn_default_height { height: @tn-default-height; }
+  .tn_phoneV_width { width: @tn-phoneV-width; }
+  .tn_phoneH_width { width: @tn-phoneH-width; }
+  .tn_tablet_width { width: @tn-tablet-width; }
+  .tn_desktop_width { width: @tn-desktop-width; }
+  .tn_l_desktop_width { width: @tn-l-desktop-width; }
+  .controlBar_height { width: @controlBar-height; }
+}
