@@ -1,0 +1,85 @@
+@prefix jumper:	 <http://jumper#> .
+@prefix dc:      <http://purl.org/dc/elements/1.1/> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix wot:     <http://xmlns.com/wot/0.1/> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix vs:      <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+
+jumper:User
+	a					owl:Class, rdfs:Class;
+	rdfs:comment		"The user of jumper";
+	rdfs:isDefinedBy	jumper:;
+	rdfs:label			"user".
+
+jumper:id
+	a					rdf:Property, owl:DatatypeProperty;
+	rdfs:comment		"The ID of a user";
+	rdfs:isDefinedBy	jumper:;
+	rdfs:label			"id";
+	rdfs:domain			jumper:User;
+	rdfs:range			rdfs:Literal.
+
+jumper:hasFavoriteLink
+	a 					rdf:Property, owl:ObjectProperty;
+	rdfs:comment		"The client has this favorite link";
+	rdfs:label			"has favorite link";
+	rdfs:isDefinedBy	jumper:;
+	rdfs:domain			jumper:User;
+	rdfs:range			jumper:FavoriteLink.
+
+jumper:password
+	a					rdf:Property, owl:DatatypeProperty;
+	rdfs:comment		"The password of a user";
+	rdfs:isDefinedBy	jumper:;
+	rdfs:label			"password";
+	rdfs:domain			jumper:User;
+	rdfs:range			rdfs:Literal.
+
+
+jumper:Category
+	a					owl:Class, rdfs:Class;
+	rdfs:comment		"The category of the link";
+	rdfs:isDefinedBy	jumper:;
+	rdfs:label			"category".
+
+jumper:name
+	a 					rdf:Property, owl:DatatypeProperty;
+	rdfs:comment		"The name of a category";
+	rdfs:isDefinedBy	jumper:;
+	rdfs:label			"name";
+	rdfs:domain			jumper:Category;
+	rdfs:range			rdfs:Literal.
+
+jumper:isSubCategoryOf
+	a 					rdf:Property, owl:ObjectProperty;
+	rdfs:comment		"This category is the sub category of a category(the top level category 
+	doesn't need to set this property).";
+	rdfs:label			"is category of";
+	rdfs:isDefinedBy	jumper:;
+	rdfs:domain			jumper:Category;
+	rdfs:range			jumper:Category.
+
+
+jumper:FavoriteLink
+	a					owl:Class, rdfs:Class;
+	rdfs:comment		"The favorite link of clients";
+	rdfs:isDefinedBy	jumper:;
+	rdfs:label			"favorite link".
+
+jumper:url	
+	a					rdf:Property, owl:DatatypeProperty;
+	rdfs:comment		"The url of a link";
+	rdfs:isDefinedBy	jumper:;
+	rdfs:label			"url";
+	rdfs:domain			jumper:FavoriteLink;
+	rdfs:range			rdfs:Literal.
+
+jumper:hasTag
+	a 					rdf:Property, owl:ObjectProperty;
+	rdfs:comment		"The favorite link has this tag.";
+	rdfs:label			"has tag";
+	rdfs:isDefinedBy	jumper:;
+	rdfs:domain			jumper:FavoriteLink;
+	rdfs:range			jumper:Category.

@@ -1,0 +1,17 @@
+@prefix jumper:	 <file:ontology/jumper.n3> .	
+@prefix xsd: 	 <http://www.w3.org/2001/XMLSchema#> .
+
+_:test
+	a				jumper:User;
+	jumper:id		"test@gmail.com"^^xsd:string;
+	jumper:password	"youguess"^^xsd:string.
+
+_:usr1
+	a				jumper:User;
+	jumper:id		"usr1@gmail.com"^^xsd:string;
+	jumper:password	"youguess1"^^xsd:string.
+
+_:usr2
+	a				jumper:User;
+	jumper:id		"test@gmail.com"^^xsd:string;
+	jumper:password	"youguess2"^^xsd:string.
