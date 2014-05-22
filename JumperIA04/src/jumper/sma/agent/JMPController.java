@@ -37,7 +37,7 @@ public class JMPController extends Agent {
 			MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.SUBSCRIBE);
 			ACLMessage msg = myAgent.receive(mt);
 			if(msg != null){
-				System.out.println("message on controller agent : "+msg.getContent());
+				logger.info("Message on controller agent : "+msg.getContent());
 				client_agents.add(msg.getSender());
 				
 				ACLMessage reply = msg.createReply();
@@ -79,15 +79,13 @@ public class JMPController extends Agent {
 				if(msg.getPerformative() == ACLMessage.PROPAGATE){
 					logger.info(myAgent.getAID().getLocalName() + " received message from client agent whose ID = " + msg.getConversationId());
 					
-					ACLMessage toDb = new ACLMessage(ACLMessage.REQUEST);
+					ACLMessage toDb = new ACLMessage(ACLMessage.PROXY);
 					toDb.addReceiver(JMPModeler.identification);
-					
-					//New conversation ID for the communication with the SPARQL executer. 
 					toDb.setConversationId(msg.getConversationId());
 					toDb.setContent(msg.getContent());
 					myAgent.send(toDb);
 					
-					logger.info(myAgent.getAID().getLocalName() + " propagate the message to the SPARQL executer.");
+					logger.info(myAgent.getAID().getLocalName() + " propagate the message to modeler.");
 				} else{
 					
 					//Receive message from SPARQL executer.

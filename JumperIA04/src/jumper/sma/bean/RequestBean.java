@@ -8,7 +8,7 @@ public class RequestBean {
 	private Integer type; //0: concern with client.(mainly on the login authentication, or creation of account)
 						  //1: concern with the favorite link and tag.
 	//user
-	private String id;
+	private String userid;
 	private String password;
 	//favorite link
 	private String name; //This is the name of a link, not the user.
@@ -19,7 +19,7 @@ public class RequestBean {
 		super();
 		operation = -1;
 		type = -1;
-		id = null;
+		userid = null;
 		password = null;
 		name = null;
 		url = null;
@@ -35,8 +35,8 @@ public class RequestBean {
 		return type;
 	}
 	
-	public String getId(){
-		return id;
+	public String getUserid(){
+		return userid;
 	}
 	
 	public String getPassword(){
@@ -64,8 +64,8 @@ public class RequestBean {
 		type = t;
 	}
 	
-	public void setId(String id){
-		this.id = id;
+	public void setUserid(String id){
+		this.userid = id;
 	}
 	
 	public void setPassword(String password){

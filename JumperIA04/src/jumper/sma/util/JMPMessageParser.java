@@ -2,7 +2,6 @@ package jumper.sma.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
 import jumper.sma.bean.RequestBean;
@@ -60,12 +59,4 @@ public class JMPMessageParser {
 		return rbJson;
 	}
 	
-	public static void main(String[] args){
-		RequestBean rb = toObject("{\"userid\":\"test\",\"url\":\"www.baidu.com\",\"tags\":[\"search\",\"monopole\",\"Chinese\",\"Main Land\"]}");
-		System.out.println(rb.getUrl());
-		System.out.println(rb.getUserid());
-		System.out.println(rb.getTags());
-		
-		System.out.println(toMessage(rb));
-	}
 }

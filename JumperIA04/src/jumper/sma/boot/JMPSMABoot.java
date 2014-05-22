@@ -28,16 +28,20 @@ public class JMPSMABoot {
 			logger.info("Main container "+mc.getName()+ " is ready");
 			
 			AgentController controller = jc.createNewAgent("JMPController"
-					, "agents.JMPController", null);
+					, "jumper.sma.agent.JMPController", null);
 			controller.start();
 			
 			AgentController modeler = jc.createNewAgent("JMPModeler"
-					, "agents.JMPModeler", null);
+					, "jumper.sma.agent.JMPModeler", null);
 			modeler.start();
+			
+			AgentController bcAdmin = jc.createNewAgent("JMPBCAdmin"
+					, "jumper.sma.agent.JMPBCAdmin", null);
+			bcAdmin.start();
 			
 			for(int i = 0; i < 10; i++){
 				AgentController client = jc.createNewAgent("JMPClient-" + (i + 1)
-						, "agents.JMPClientAgent", null);
+						, "jumper.sma.agent.JMPClientAgent", null);
 				client.start();
 			}
 		} 
