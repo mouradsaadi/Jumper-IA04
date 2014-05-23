@@ -4,27 +4,3 @@
 
 jmpbc:jack  a            jumper:User ;
         jumper:password  "ddsss"^^xsd:string .
-
-jmpbc:monopole  a  jumper:Tag .
-
-jmpbc:www.google.com-jack
-        a                 jumper:FavoriteLink ;
-        jumper:belongsTo  jmpbc:jack ;
-        jumper:hasTag     jmpbc:word_wide , jmpbc:it , jmpbc:search , jmpbc:innovation ;
-        jumper:url        "www.google.com"^^xsd:string .
-
-jmpbc:chinese  a  jumper:Tag .
-
-jmpbc:search  a  jumper:Tag .
-
-jmpbc:innovation  a  jumper:Tag .
-
-jmpbc:www.baidu.com-jack
-        a                 jumper:FavoriteLink ;
-        jumper:belongsTo  jmpbc:jack ;
-        jumper:hasTag     jmpbc:search , jmpbc:monopole , jmpbc:chinese ;
-        jumper:url        "www.baidu.com"^^xsd:string .
-
-jmpbc:word_wide  a  jumper:Tag .
-
-jmpbc:it  a     jumper:Tag .
