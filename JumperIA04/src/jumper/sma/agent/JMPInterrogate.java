@@ -10,7 +10,7 @@ import jade.lang.acl.MessageTemplate;
 
 public class JMPInterrogate extends Agent {
 	
-	public final static AID identification = new AID("JMPModeler", AID.ISLOCALNAME);
+	public final static AID identification = new AID("JMPInterrogate", AID.ISLOCALNAME);
 	private static Logger logger = Logger.getLogger("Agents.JMPInterrogate");
 	
 	@Override

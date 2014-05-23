@@ -1,4 +1,4 @@
-@prefix jumper:	 <http://jumper#> .
+@prefix jumper:	 <file:///ontology/jumper.n3#> .
 @prefix dc:      <http://purl.org/dc/elements/1.1/> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix wot:     <http://xmlns.com/wot/0.1/> .
@@ -13,22 +13,6 @@ jumper:User
 	rdfs:isDefinedBy	jumper:;
 	rdfs:label			"user".
 
-jumper:id
-	a					rdf:Property, owl:DatatypeProperty;
-	rdfs:comment		"The ID of a user";
-	rdfs:isDefinedBy	jumper:;
-	rdfs:label			"id";
-	rdfs:domain			jumper:User;
-	rdfs:range			rdfs:Literal.
-
-jumper:hasFavoriteLink
-	a 					rdf:Property, owl:ObjectProperty;
-	rdfs:comment		"The client has this favorite link";
-	rdfs:label			"has favorite link";
-	rdfs:isDefinedBy	jumper:;
-	rdfs:domain			jumper:User;
-	rdfs:range			jumper:FavoriteLink.
-
 jumper:password
 	a					rdf:Property, owl:DatatypeProperty;
 	rdfs:comment		"The password of a user";
@@ -38,28 +22,20 @@ jumper:password
 	rdfs:range			rdfs:Literal.
 
 
-jumper:Category
+jumper:Tag
 	a					owl:Class, rdfs:Class;
-	rdfs:comment		"The category of the link";
+	rdfs:comment		"The tag of a link";
 	rdfs:isDefinedBy	jumper:;
-	rdfs:label			"category".
+	rdfs:label			"tag".
 
-jumper:name
-	a 					rdf:Property, owl:DatatypeProperty;
-	rdfs:comment		"The name of a category";
-	rdfs:isDefinedBy	jumper:;
-	rdfs:label			"name";
-	rdfs:domain			jumper:Category;
-	rdfs:range			rdfs:Literal.
-
-jumper:isSubCategoryOf
+jumper:isSubTagOf
 	a 					rdf:Property, owl:ObjectProperty;
 	rdfs:comment		"This category is the sub category of a category(the top level category 
 	doesn't need to set this property).";
-	rdfs:label			"is category of";
+	rdfs:label			"is subtag of";
 	rdfs:isDefinedBy	jumper:;
-	rdfs:domain			jumper:Category;
-	rdfs:range			jumper:Category.
+	rdfs:domain			jumper:Tag;
+	rdfs:range			jumper:Tag.
 
 
 jumper:FavoriteLink
@@ -82,4 +58,12 @@ jumper:hasTag
 	rdfs:label			"has tag";
 	rdfs:isDefinedBy	jumper:;
 	rdfs:domain			jumper:FavoriteLink;
-	rdfs:range			jumper:Category.
+	rdfs:range			jumper:Tag.
+
+jumper:belongsTo
+	a 					rdf:Property, owl:ObjectProperty;
+	rdfs:comment		"This link belongs to a user";
+	rdfs:label			"belongs to";
+	rdfs:isDefinedBy	jumper:;
+	rdfs:domain			jumper:FavoriteLink;
+	rdfs:range			jumper:User.

@@ -1,0 +1,3 @@
+PREFIX jumper:	<file:///ontology/jumper.n3#>
+PREFIX xsd: 	<http://www.w3.org/2001/XMLSchema#>
+PREFIX jmpbc: 	<file:///ontology/jumper.bc#>

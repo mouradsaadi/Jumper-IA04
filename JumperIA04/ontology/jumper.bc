@@ -1,17 +1,30 @@
-@prefix jumper:	 <file:ontology/jumper.n3> .	
-@prefix xsd: 	 <http://www.w3.org/2001/XMLSchema#> .
+@prefix jmpbc: <file:///ontology/jumper.bc#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix jumper: <file:///ontology/jumper.n3#> .
 
-_:test
-	a				jumper:User;
-	jumper:id		"test@gmail.com"^^xsd:string;
-	jumper:password	"youguess"^^xsd:string.
+jmpbc:jack  a            jumper:User ;
+        jumper:password  "ddsss"^^xsd:string .
 
-_:usr1
-	a				jumper:User;
-	jumper:id		"usr1@gmail.com"^^xsd:string;
-	jumper:password	"youguess1"^^xsd:string.
+jmpbc:monopole  a  jumper:Tag .
 
-_:usr2
-	a				jumper:User;
-	jumper:id		"test@gmail.com"^^xsd:string;
-	jumper:password	"youguess2"^^xsd:string.
+jmpbc:www.google.com-jack
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:jack ;
+        jumper:hasTag     jmpbc:word_wide , jmpbc:it , jmpbc:search , jmpbc:innovation ;
+        jumper:url        "www.google.com"^^xsd:string .
+
+jmpbc:chinese  a  jumper:Tag .
+
+jmpbc:search  a  jumper:Tag .
+
+jmpbc:innovation  a  jumper:Tag .
+
+jmpbc:www.baidu.com-jack
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:jack ;
+        jumper:hasTag     jmpbc:search , jmpbc:monopole , jmpbc:chinese ;
+        jumper:url        "www.baidu.com"^^xsd:string .
+
+jmpbc:word_wide  a  jumper:Tag .
+
+jmpbc:it  a     jumper:Tag .
