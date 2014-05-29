@@ -6,7 +6,10 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.apache.jena.riot.Lang;
@@ -126,8 +129,9 @@ public class JMPBCAdmin extends Agent {
 		private void updateOperation(int op, RequestBean rb){
 			switch (op) {
 			case UPDATE_INSERT_LINK_OP:
-				constructLink(rb.getName(), rb.getUrl(), 
-						rb.getTags(), rb.getUserid().toLowerCase().replaceAll("\\s", "_"));
+				/*cut the 'http://' part and replace all '/' with '*' */
+				constructLink(rb.getUrl(), 
+						rb.getTags(), rb.getUserid().trim().toLowerCase().replaceAll("\\s", "_"));
 				break;
 			case UPDATE_ADD_TAG_OP:
 				break;
@@ -136,28 +140,44 @@ public class JMPBCAdmin extends Agent {
 			}
 		}
 		
-		private void constructLink(String name, String url, ArrayList<String> tags, String id){
+		private void constructLink(String url, LinkedHashMap<String, String> tags, String id){
 			//Create link
+			String linkID = url.substring(7).replaceAll("/", "-") + "-" + id ;
 			String createFL = 	"INSERT {" +
-								" jmpbc:" + url + "-" + id + "	a jumper:FavoriteLink;" +
-								"	jumper:url \"" + url + "\"^^xsd:string;";
+								"jmpbc:" + linkID + " a jumper:FavoriteLink;" +
+								"jumper:url \"" + url + "\"^^xsd:anyURI;";
+			
+			Set<Entry<String, String>> es = tags.entrySet();
+			Iterator<Entry<String, String>> it = es.iterator();
 			//Create new tag && add tags to link
-			for (String tag : tags) {
-				String low_tag = tag.toLowerCase().replaceAll("\\s", "_");
-				String createTag = 	"INSERT {" +
-						" jmpbc:" + low_tag + "	a jumper:Tag;" +
-						"} WHERE {" +
-						"	FILTER NOT EXISTS{" + 
-						"		jmpbc:" + low_tag + " a jumper:Tag;}}";
+			while(it.hasNext()) {
+				Entry<String, String> taginfo = it.next();
+				String tag = taginfo.getKey().trim().toLowerCase().replaceAll("\\s", "_");		//Key as the tag
+				String uTag = taginfo.getValue().trim().toLowerCase().replaceAll("\\s", "_");	//value as the upper tag
+				
+				String createTag = 	"INSERT{" +
+						"jmpbc:" + tag + " a jumper:Tag;";
+				if(!uTag.isEmpty()){
+					createTag += "jumper:isSubTagOf jmpbc:" + uTag;
+				}
+				createTag += "}WHERE{" +
+							 "	 FILTER NOT EXISTS{" + 
+							 "jmpbc:" + tag + " a jumper:Tag;";
+				if(!uTag.isEmpty()){
+					createTag += "	jumper:isSubTagOf jmpbc:" + uTag;
+				}
+				
+				createTag += "}}";
 				runUpdate(createTag);
-				createFL += "	jumper:hasTag jmpbc:" + low_tag + ";";
+				createFL += "	jumper:hasTag jmpbc:" + tag + ";";
 			}
 			
 			//Add constraint part && user
-			createFL += "	jumper:belongsTo jmpbc:" + id +".}" +
-						"WHERE {" + 
+			createFL += "jumper:belongsTo jmpbc:" + id +".}" +
+						"WHERE{" + 
 						"	FILTER NOT EXISTS{" + 
-						"		jmpbc:" + url + "-" + id + "	a jumper:FavoriteLink;}}";
+						"		jmpbc:" + linkID + " a jumper:FavoriteLink;}}";
+
 			runUpdate(createFL);
 			
 			logger.info(getAID().getLocalName() + " complete the operation.");

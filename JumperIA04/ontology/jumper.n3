@@ -13,15 +13,6 @@ jumper:User
 	rdfs:isDefinedBy	jumper:;
 	rdfs:label			"user".
 
-jumper:password
-	a					rdf:Property, owl:DatatypeProperty;
-	rdfs:comment		"The password of a user";
-	rdfs:isDefinedBy	jumper:;
-	rdfs:label			"password";
-	rdfs:domain			jumper:User;
-	rdfs:range			rdfs:Literal.
-
-
 jumper:Tag
 	a					owl:Class, rdfs:Class;
 	rdfs:comment		"The tag of a link";

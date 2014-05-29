@@ -1,27 +1,24 @@
+
 package jumper.sma.bean;
 
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class RequestBean {
 	
-	private Integer operation; //0 for query, 1 for insertion.
-	private Integer type; //0: concern with client.(mainly on the login authentication, or creation of account)
-						  //1: concern with the favorite link and tag.
+	private Integer operation; 	//0 for query, 1 for insertion.
+	private Integer type; 	   	//0: concern with client.(mainly on the login authentication, or creation of account)
+						  		//1: concern with the favorite link and tag.
 	//user
 	private String userid;
-	private String password;
 	//favorite link
-	private String name; //This is the name of a link, not the user.
 	private String url;
-	private ArrayList<String> tags;
+	private LinkedHashMap<String, String> tags;
 	
 	public RequestBean(){
 		super();
 		operation = -1;
 		type = -1;
 		userid = null;
-		password = null;
-		name = null;
 		url = null;
 		tags = null;
 	}
@@ -39,19 +36,11 @@ public class RequestBean {
 		return userid;
 	}
 	
-	public String getPassword(){
-		return password;
-	}
-	
-	public String getName(){
-		return name;
-	}
-	
 	public String getUrl(){
 		return url;
 	}
 	
-	public ArrayList<String> getTags(){
+	public LinkedHashMap<String, String> getTags(){
 		return tags;
 	}
 	
@@ -68,19 +57,11 @@ public class RequestBean {
 		this.userid = id;
 	}
 	
-	public void setPassword(String password){
-		this.password = password;
-	}
-	
-	public void setName(String link_name){
-		name = link_name;
-	}
-	
 	public void setUrl(String url){
 		this.url = url;
 	}
 	
-	public void setTags(ArrayList<String> tags){
+	public void setTags(LinkedHashMap<String, String> tags){
 		this.tags = tags;
 	}
 }
