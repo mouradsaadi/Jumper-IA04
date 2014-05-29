@@ -1,0 +1,35 @@
+@prefix jmpbc: <file:///ontology/jumper.bc#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix jumper: <file:///ontology/jumper.n3#> .
+
+jmpbc:jack  a   jumper:User .
+
+jmpbc:infomation  a  jumper:Tag .
+
+jmpbc:football  a          jumper:Tag ;
+        jumper:isSubTagOf  jmpbc:sport .
+
+jmpbc:tennis  a            jumper:Tag ;
+        jumper:isSubTagOf  jmpbc:sport .
+
+jmpbc:sport  a  jumper:Tag .
+
+jmpbc:science  a  jumper:Tag .
+
+jmpbc:lhc  a               jumper:Tag ;
+        jumper:isSubTagOf  jmpbc:science .
+
+jmpbc:culture  a  jumper:Tag .
+
+jmpbc:home.web.cern.ch--jack
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:jack ;
+        jumper:hasTag     jmpbc:lhc , jmpbc:nuclear_science ;
+        jumper:url        "http://home.web.cern.ch/"^^xsd:anyURI .
+
+jmpbc:nuclear_science_info
+        a                  jumper:Tag ;
+        jumper:isSubTagOf  jmpbc:information .
+
+jmpbc:pingpong  a          jumper:Tag ;
+        jumper:isSubTagOf  jmpbc:sport .

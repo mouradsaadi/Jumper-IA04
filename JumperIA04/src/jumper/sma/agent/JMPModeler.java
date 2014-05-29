@@ -7,6 +7,8 @@ import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import jumper.sma.bean.RequestBean;
+import jumper.sma.util.JMPMessageParser;
 
 public class JMPModeler extends Agent {
 	
@@ -24,19 +26,38 @@ public class JMPModeler extends Agent {
 
 		@Override
 		public void action() {
-			logger.info(myAgent.getAID().getLocalName() + " received the request from controller.");
 			
 			//request received from JMPController
-			MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
+			MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.PROXY);
 			ACLMessage msg = myAgent.receive(mt);
 			if(msg != null){
-				ACLMessage reply = msg.createReply();
-				reply.setPerformative(ACLMessage.INFORM);
-				reply.setContent(msg.getContent() + " - After Execution");
-				myAgent.send(reply);
+				logger.info(myAgent.getAID().getLocalName() + " received the request from controller.");
+				ACLMessage dmsg = null;
+				if((dmsg = disptachMessage(msg)) != null){
+					myAgent.send(dmsg);
+				}
 			} else{
 				block();
 			}
+		}
+		
+		private ACLMessage disptachMessage(ACLMessage messageReceived){
+			RequestBean rb = JMPMessageParser.toObject(messageReceived.getContent());
+			
+			ACLMessage dmsg = new ACLMessage(ACLMessage.PROPAGATE);
+			dmsg.setContent(messageReceived.getContent());
+			dmsg.setConversationId(messageReceived.getConversationId());
+			
+			if(rb.getOperation() == 0){
+				dmsg.addReceiver(JMPInterrogate.identification);
+			} else if(rb.getOperation() == 1){
+				dmsg.addReceiver(JMPBCAdmin.identification);
+			} else{
+				logger.warning(myAgent.getAID().getLocalName() + " can't find corresponding operation to this message.");
+				dmsg = null;
+			}
+			
+			return dmsg;
 		}
 
 		@Override
