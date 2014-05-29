@@ -39,6 +39,10 @@ public class JMPSMABoot {
 					, "jumper.sma.agent.JMPBCAdmin", null);
 			bcAdmin.start();
 			
+			AgentController bcQuery = jc.createNewAgent("JMPInterrogate"
+					, "jumper.sma.agent.JMPInterrogate", null);
+			bcQuery.start();
+
 			for(int i = 0; i < 10; i++){
 				AgentController client = jc.createNewAgent("JMPClient-" + (i + 1)
 						, "jumper.sma.agent.JMPClientAgent", null);

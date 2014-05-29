@@ -53,7 +53,7 @@ public class JMPModeler extends Agent {
 			} else if(rb.getOperation() == 1){
 				dmsg.addReceiver(JMPBCAdmin.identification);
 			} else{
-				logger.warning(myAgent.getAID().getLocalName() + " can not find corresponding action to this message.");
+				logger.warning(myAgent.getAID().getLocalName() + " can't find corresponding operation to this message.");
 				dmsg = null;
 			}
 			
