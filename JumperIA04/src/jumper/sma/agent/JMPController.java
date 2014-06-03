@@ -30,6 +30,7 @@ public class JMPController extends Agent {
 	
 	private class ReceiveSubscription extends Behaviour{
 		
+		//Count the number of client agent.
 		private int count = 0;
 		
 		@Override
@@ -56,7 +57,7 @@ public class JMPController extends Agent {
 		@Override
 		public boolean done() {
 			// TODO Auto-generated method stub
-			return count == 10;
+			return count == 1;
 		}
 		
 		@Override

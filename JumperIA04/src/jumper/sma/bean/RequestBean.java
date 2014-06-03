@@ -6,8 +6,7 @@ import java.util.LinkedHashMap;
 public class RequestBean {
 	
 	private Integer operation; 	//0 for query, 1 for insertion.
-	private Integer type; 	   	//0: concern with client.(mainly on the login authentication, or creation of account)
-						  		//1: concern with the favorite link and tag.
+	
 	//user
 	private String userid;
 	//favorite link
@@ -17,7 +16,6 @@ public class RequestBean {
 	public RequestBean(){
 		super();
 		operation = -1;
-		type = -1;
 		userid = null;
 		url = null;
 		tags = null;
@@ -26,10 +24,6 @@ public class RequestBean {
 	//Getter
 	public Integer getOperation(){
 		return operation;
-	}
-	
-	public Integer getType(){
-		return type;
 	}
 	
 	public String getUserid(){
@@ -47,10 +41,6 @@ public class RequestBean {
 	//Setter
 	public void setOperation(Integer op){
 		operation = op;
-	}
-	
-	public void setType(Integer t){
-		type = t;
 	}
 	
 	public void setUserid(String id){
