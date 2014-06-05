@@ -86,12 +86,12 @@ public class JMPClientAgent extends Agent {
 					toController.addReceiver(JMPController.identification);
 					myAgent.send(toController);
 				} else{
-					System.out.println("Client from : "+msg.getSender()+" content : "+msg.getContent());
-					logger.info("Client Agent " + agent_id + " transfer the message '" + msg.getContent() + "' to servlet.");
+					System.out.println("Client from : " + msg.getSender() + " content : "+msg.getContent());
+					logger.info(myAgent.getLocalName() + " received message from query agent, message is as follow:\n" + msg.getContent());
 					ACLMessage toServlet = new ACLMessage(ACLMessage.INFORM);
 					toServlet.addReceiver(new AID("ControlContainer-1", AID.ISLOCALNAME));
 					toServlet.setContent(msg.getContent());
-					myAgent.send(toServlet);
+					
 				}
 			} else{
 				block();

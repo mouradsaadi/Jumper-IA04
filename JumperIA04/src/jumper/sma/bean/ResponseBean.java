@@ -4,13 +4,22 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class ResponseBean {
-	LinkedHashMap<ArrayList<String>, String> recUrls;
+	private int status = 0; //0: works fine 1: No corresponding result found
+	private LinkedHashMap<String, ArrayList<String>> recLinks;
 	
-	void setRecUrl(LinkedHashMap<ArrayList<String>, String> recUrls){
-		this.recUrls = recUrls;
+	public void setRecLinks(LinkedHashMap<String, ArrayList<String>> recUrls){
+		this.recLinks = recUrls;
 	}
 	
-	LinkedHashMap<ArrayList<String>, String> getRecUrls(){
-		return recUrls;
+	public LinkedHashMap<String, ArrayList<String>> getRecUrls(){
+		return recLinks;
+	}
+	
+	public void setStatus(int status){
+		this.status = status;
+	}
+	
+	public int getStatus(){
+		return status;
 	}
 }

@@ -68,7 +68,7 @@ public class JMPBCAdmin extends Agent {
 		}
 		
 		private boolean existenceVerification(String userid){
-			String extistenceQuery = "SELECT ?user" +
+			String extistenceQuery = "SELECT ?user " +
 									 "WHERE{" + 
 									 "	?user a jumper:User." +
 									 "	FILTER (?user=jmpbc:" + userid + ")}";

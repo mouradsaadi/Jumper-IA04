@@ -4,32 +4,78 @@
 
 jmpbc:jack  a   jumper:User .
 
+jmpbc:tom   a   jumper:User .
+
 jmpbc:infomation  a  jumper:Tag .
 
 jmpbc:football  a          jumper:Tag ;
         jumper:isSubTagOf  jmpbc:sport .
 
+jmpbc:basketball  a        jumper:Tag ;
+        jumper:isSubTagOf  jmpbc:sport .
+
 jmpbc:tennis  a            jumper:Tag ;
         jumper:isSubTagOf  jmpbc:sport .
+
+jmpbc:cern  a            jumper:Tag ;
+        jumper:isSubTagOf  jmpbc:science .
 
 jmpbc:sport  a  jumper:Tag .
 
 jmpbc:science  a  jumper:Tag .
-
-jmpbc:lhc  a               jumper:Tag ;
-        jumper:isSubTagOf  jmpbc:science .
 
 jmpbc:culture  a  jumper:Tag .
 
 jmpbc:home.web.cern.ch--jack
         a                 jumper:FavoriteLink ;
         jumper:belongsTo  jmpbc:jack ;
-        jumper:hasTag     jmpbc:lhc , jmpbc:nuclear_science ;
+        jumper:hasTag     jmpbc:cern ;
         jumper:url        "http://home.web.cern.ch/"^^xsd:anyURI .
 
-jmpbc:nuclear_science_info
-        a                  jumper:Tag ;
-        jumper:isSubTagOf  jmpbc:information .
+jmpbc:www.fifa.com-worldcup--jack
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:jack ;
+        jumper:hasTag     jmpbc:football ;
+        jumper:url        "http://www.fifa.com/worldcup/"^^xsd:anyURI .
 
-jmpbc:pingpong  a          jumper:Tag ;
-        jumper:isSubTagOf  jmpbc:sport .
+jmpbc:www.tennis.com--tom
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:tom ;
+        jumper:hasTag     jmpbc:tennis ;
+        jumper:url        "http://www.tennis.com/"^^xsd:anyURI .
+
+jmpbc:www.nba.com--tom
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:tom ;
+        jumper:hasTag     jmpbc:basketball ;
+        jumper:url        "http://www.nba.com/"^^xsd:anyURI .
+
+jmpbc:www.sciencemag.org--tom
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:tom ;
+        jumper:hasTag     jmpbc:science ;
+        jumper:url        "http://www.sciencemag.org/"^^xsd:anyURI .
+
+jmpbc:www.bbc.com-sport-0--tom
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:tom ;
+        jumper:hasTag     jmpbc:sport ;
+        jumper:url        "http://www.bbc.com/sport/0/"^^xsd:anyURI .
+
+jmpbc:www.sport.fr--tom
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:tom ;
+        jumper:hasTag     jmpbc:sport ;
+        jumper:url        "http://www.sport.fr/"^^xsd:anyURI .
+
+jmpbc:www.sportengland.org--tom
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:tom ;
+        jumper:hasTag     jmpbc:sport ;
+        jumper:url        "http://www.sportengland.org/"^^xsd:anyURI .
+
+jmpbc:www.fifa.com-worldcup--tom
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:tom ;
+        jumper:hasTag     jmpbc:sport ;
+        jumper:url        "http://www.fifa.com/worldcup/"^^xsd:anyURI .
