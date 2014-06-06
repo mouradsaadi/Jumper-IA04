@@ -28,6 +28,14 @@ jumper:isSubTagOf
 	rdfs:domain			jumper:Tag;
 	rdfs:range			jumper:Tag.
 
+jumper:hasSubTag
+	a 					rdf:Property, owl:ObjectProperty;
+	rdfs:comment		"This tag has a(some) sub tag(s) (Root tag only)";
+	rdfs:label			"has sub tag";
+	rdfs:isDefinedBy	jumper:;
+	rdfs:domain			jumper:Tag;
+	rdfs:range			jumper:Tag.
+
 
 jumper:FavoriteLink
 	a					owl:Class, rdfs:Class;

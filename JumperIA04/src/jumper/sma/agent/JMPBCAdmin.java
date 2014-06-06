@@ -45,7 +45,6 @@ public class JMPBCAdmin extends Agent {
 
 		@Override
 		public void action() {
-			// TODO Auto-generated method stub
 			MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.PROPAGATE);
 			ACLMessage message = myAgent.receive(mt);
 			if(message != null){
@@ -97,7 +96,7 @@ public class JMPBCAdmin extends Agent {
 			
 			Set<Entry<String, String>> es = tags.entrySet();
 			Iterator<Entry<String, String>> it = es.iterator();
-			//Create new tag && add tags to link
+			//Create new tag && add tags to link	
 			while(it.hasNext()) {
 				Entry<String, String> taginfo = it.next();
 				String tag = taginfo.getKey().trim().toLowerCase().replaceAll("\\s", "_");		//Key as the tag
@@ -119,8 +118,20 @@ public class JMPBCAdmin extends Agent {
 				}
 				
 				createTag += "}}";
-				runUpdate(createTag);
+				JMPKBModel.getInstance().runUpdate(createTag);
 				createFL += "	jumper:hasTag jmpbc:" + tag + ";";
+				
+				if(uTag != null && !uTag.isEmpty()){
+					/*Get the theme of parent tag*/
+					String theme = JMPKBModel.getInstance().themeOfTag(uTag);
+					if(theme == null)
+						theme = uTag;
+					
+					/*Insert new tag to this theme*/
+					String updateTheme = "INSERT DATA{" +
+										"jmpbc:" + theme + " jumper:hasSubTag jmpbc:" + tag + ".}";
+					JMPKBModel.getInstance().runUpdate(updateTheme);
+				}
 			}
 			
 			//Add constraint part && user
@@ -129,21 +140,9 @@ public class JMPBCAdmin extends Agent {
 						"	FILTER NOT EXISTS{" + 
 						"		jmpbc:" + linkID + " a jumper:FavoriteLink;}}";
 
-			runUpdate(createFL);
+			JMPKBModel.getInstance().runUpdate(createFL);
 			
 			logger.info(getAID().getLocalName() + " complete the operation.");
-		}
-		
-		private void runUpdate(String instruction){
-			UpdateRequest request = UpdateFactory.create(JMPKBModel.getInstance().getPrefix() + instruction);
-			UpdateAction.execute(request, JMPKBModel.getInstance().getModel());
-			
-			try {
-				FileOutputStream fos = new FileOutputStream(JMPKBModel.MODEL_PATH);
-				RDFDataMgr.write(fos, JMPKBModel.getInstance().getModel(), Lang.TURTLE);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		@Override

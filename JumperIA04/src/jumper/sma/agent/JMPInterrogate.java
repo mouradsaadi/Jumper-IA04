@@ -31,6 +31,7 @@ public class JMPInterrogate extends Agent {
 	private static final long serialVersionUID = 5893686881813455005L;
 	public final static AID identification = new AID("JMPInterrogate", AID.ISLOCALNAME);
 	private static Logger logger = Logger.getLogger("Agents.JMPInterrogate");
+	private JMPKBModel kbModel = JMPKBModel.getInstance();
 	
 	@Override
 	protected void setup(){
@@ -106,7 +107,7 @@ public class JMPInterrogate extends Agent {
 								"	jumper:url ?url." +
 								"	FILTER(?user1 = jmpbc:" + userid + " && ?user2 != ?user1)}";
 			
-			return runQuery_Array(JMPKBModel.getInstance().getPrefix() + csQuery, "same_url", true);
+			return kbModel.runQuery_Array(JMPKBModel.getInstance().getPrefix() + csQuery, "same_url", true);
 		}
 		
 		private LinkedHashMap<String, ArrayList<String>> getRecommendingLink(String userid){
@@ -139,7 +140,7 @@ public class JMPInterrogate extends Agent {
 			}
 			tagQueyStr += "	FILTER(?user1 = jmpbc:" + userid + " && ?user2 != ?user1)}";
 			
-			LinkedHashMap<String, ArrayList<String>> result = runQuery_Map(JMPKBModel.getInstance().getPrefix() + tagQueyStr);
+			LinkedHashMap<String, ArrayList<String>> result = kbModel.runQuery_Map(JMPKBModel.getInstance().getPrefix() + tagQueyStr);
 			
 			//In this case, we can find some urls which do not belong to the user but have the same tag that the user possesses.
 			if(result != null){
@@ -149,7 +150,7 @@ public class JMPInterrogate extends Agent {
 			
 			//In this case, we can only recommend some URLs with the same theme as what the user possesses.
 			logger.info(getLocalName() + ": search of rec link start phase 2.");
-			LinkedHashSet<String> tags = allTagsConcernedWith(userid);
+			LinkedHashSet<String> tags = kbModel.allTagsConcernedWith(userid);
 			if(tags == null){
 				logger.info(getLocalName() + ": exception with no tag.");
 				return null;
@@ -166,198 +167,23 @@ public class JMPInterrogate extends Agent {
 				/*Search theme(root tag)*/
 				String theme = tag;
 				String tmp = tag;
-				while((tmp = getUpperLevelTag(tmp)) != null){
+				while((tmp = kbModel.getUpperLevelTag(tmp)) != null){
 					theme = tmp;
 				}
 				ttags.add(theme);
 			}
 			
 			/*Search all link concerned with theme in the set*/
-			/*Plan 1(Better in performance, but not complete)*/
-//			int count = 0;
-//			for (String theme : ttags) {
-//				LinkedHashSet<String> urlSet = allLinksConcernedWith(theme, userid, sameLinks);
-//				if(urlSet != null){
-//					ArrayList<String> urls = new ArrayList<String>(urlSet);
-//					/*Add all links to the theme*/
-//					if(!urls.isEmpty())
-//						count ++;
-//					recLink.put(theme, urls);
-//				}
-//			}
-			
-			/*Plan 2(Consuming but complete)*/
 			int count = 0;
 			for (String theme : ttags) {
-				LinkedHashSet<String> themeURLs = new LinkedHashSet<String>();
-				LinkedHashSet<String> tmpTags = allTagsConvergedOn(theme);
-				System.out.println(tmpTags);
-				for (String tag : tmpTags) {
-					LinkedHashSet<String> tmpURLs = allLinksConcernedWith(tag, userid, sameLinks);
-					if(tmpURLs != null)
-						themeURLs.addAll(tmpURLs);
-				}
-				
-				/*For those who add directly the theme as a tag*/
-				LinkedHashSet<String> tmpURLs = allLinksConcernedWith(theme, userid, sameLinks);
-				if(tmpURLs != null)
-					themeURLs.addAll(tmpURLs);
-				
-				if(!themeURLs.isEmpty())
+				LinkedHashSet<String> themeURLs = kbModel.allLinkOfTheme(theme, userid, sameLinks);
+				if(themeURLs != null){
+					recLink.put(theme, new ArrayList<String>(themeURLs));
 					count++;
-				
-				recLink.put(theme, new ArrayList<String>(themeURLs));
+				}
 			}
 			
 			return count > 0? recLink : null;
-		}
-		
-		/*For tag*/
-		private LinkedHashSet<String> allLinksConcernedWith(String tag, String userid, ArrayList<String> sameLinks){
-			String atcQuery = "SELECT ?url " + 
-							"WHERE{" +
-							"	?link a jumper:FavoriteLink;" +
-							"		jumper:belongsTo ?user;" +
-							"		jumper:hasTag ?tag;" +
-							"		jumper:url ?url.";
-			if(sameLinks != null){
-				atcQuery += 	"	FILTER NOT EXISTS{" +
-								"		FILTER(?url IN (";
-				for(int i = 0; i < sameLinks.size(); i++){
-					atcQuery += String.format("\"%s\"^^xsd:anyURI", sameLinks.get(i));
-					if(i == sameLinks.size() - 1){
-						atcQuery += "))}";
-					} else{
-						atcQuery += ", ";
-					}
-				}
-			}
-			atcQuery += "	FILTER(?user != jmpbc:" + userid + "&& ?tag = jmpbc:" + tag + ")}";
-			
-			return runQuery_Set(JMPKBModel.getInstance().getPrefix() + atcQuery, "url", true);
-		}
-		
-		private String getUpperLevelTag(String tag){
-			String uQuery = "SELECT ?ptag " +
-							"WHERE{" +
-							"	?tag a jumper:Tag;" +
-							"		jumper:isSubTagOf ?ptag." +
-							"	FILTER(?tag = jmpbc:" + tag + ")}";
-			
-			Query query = QueryFactory.create(JMPKBModel.getInstance().getPrefix() + uQuery);
-			QueryExecution queryExecution = QueryExecutionFactory.create(query, JMPKBModel.getInstance().getModel());
-			ResultSet r = queryExecution.execSelect();
-			
-			if(r.hasNext()){
-				QuerySolution qs = r.next();
-				return qs.getResource("ptag").getLocalName();
-			}
-			
-			queryExecution.close();
-			return null;
-		}
-		
-		private LinkedHashSet<String> allTagsConcernedWith(String userid){
-			String tagQuery = 	"SELECT DISTINCT ?tag " +
-								"WHERE {" +
-								"	?user a jumper:User." +
-								"	?link a jumper:FavoriteLink;" +
-								"		jumper:hasTag ?tag;" +
-								"		jumper:belongsTo ?user." +
-								"	FILTER(?user = jmpbc:" + userid + ")}";
-			
-			return runQuery_Set(JMPKBModel.getInstance().getPrefix() + tagQuery, "tag", false);
-		}		
-		
-		/*Get all tags converging to a specific theme*/
-		private LinkedHashSet<String> allTagsConvergedOn(String theme){
-			String tagQuery = 	"SELECT ?tag " +
-								"WHERE{" +
-								"	?tag a jumper:Tag." +
-								"	OPTIONAL {?tag jumper:isSubTagOf ?ptag.}" +
-								"	FILTER(bound(?ptag))}";
-			
-			/*Filter all tags*/
-			LinkedHashSet<String> tags = runQuery_Set(JMPKBModel.getInstance().getPrefix() + tagQuery, "tag", false);
-			LinkedHashSet<String> result = new LinkedHashSet<String>();
-			for (String tag : tags) {
-				String tmp = tag;
-				String t = tag;
-				while((tmp = getUpperLevelTag(tmp)) != null){
-					t = tmp;
-				}
-				
-				if(t.equalsIgnoreCase(theme)){
-					result.add(tag);
-				}
-			}
-			return result.isEmpty()? null : result;
-		}
-		
-		private ArrayList<String> runQuery_Array(String inst, String attributeName, boolean isLiteral){
-			Query query = QueryFactory.create(inst);
-			QueryExecution queryExecution = QueryExecutionFactory.create(query, JMPKBModel.getInstance().getModel());
-			ResultSet r = queryExecution.execSelect();
-			
-			//Save the result to array
-			ArrayList<String> result = new ArrayList<String>();
-			while(r.hasNext()){
-				QuerySolution qs = r.next();
-				if(isLiteral)
-					result.add(qs.getLiteral(attributeName).getString());
-				else
-					result.add(qs.getResource(attributeName).getLocalName());
-			}
-			
-			queryExecution.close();
-			
-			return result.isEmpty()? null : result;
-		}
-		
-		private LinkedHashMap<String, ArrayList<String>> runQuery_Map(String inst){
-			Query query = QueryFactory.create(inst);
-			QueryExecution queryExecution = QueryExecutionFactory.create(query, JMPKBModel.getInstance().getModel());
-			ResultSet r = queryExecution.execSelect();
-			
-			LinkedHashMap<String, ArrayList<String>> result = new LinkedHashMap<String, ArrayList<String>>();
-			
-			while(r.hasNext()){
-				QuerySolution qs = r.next();
-				
-				/*Tag and url*/
-				String tag = qs.getResource("tag").getLocalName();
-				String url = qs.getLiteral("url").getLexicalForm();
-				
-				if(!result.containsKey(tag)){
-					result.put(tag, new ArrayList<String>());
-				} 
-				result.get(tag).add(url);
-			}
-			
-			queryExecution.close();
-			
-			return result.isEmpty()? null : result;
-		}
-		
-		private LinkedHashSet<String> runQuery_Set(String inst, String attributeName, boolean isLiteral){
-			Query query = QueryFactory.create(inst);
-			QueryExecution queryExecution = QueryExecutionFactory.create(query, JMPKBModel.getInstance().getModel());
-			ResultSet r = queryExecution.execSelect();
-			
-			LinkedHashSet<String> result = new LinkedHashSet<String>();
-			
-			while(r.hasNext()){
-				QuerySolution qs = r.next();
-				if(isLiteral){
-					result.add(qs.getLiteral(attributeName).getLexicalForm());
-				} else{
-					result.add(qs.getResource(attributeName).getLocalName());
-				}
-			}
-			
-			queryExecution.close();
-			
-			return result.isEmpty()? null : result;
 		}
 		
 		@Override
