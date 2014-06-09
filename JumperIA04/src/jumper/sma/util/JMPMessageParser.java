@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import jumper.sma.bean.RequestBean;
+import jumper.sma.bean.ResponseBean;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -32,7 +33,7 @@ public class JMPMessageParser {
 		return rb;
 	}
 	
-	public static String toMessage(RequestBean rb){
+	public static String toMessage(ResponseBean rb){
 		ObjectMapper mapper = new ObjectMapper();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {

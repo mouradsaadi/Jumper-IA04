@@ -2,34 +2,99 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix jumper: <file:///ontology/jumper.n3#> .
 
-jmpbc:jack  a   jumper:User .
+jmpbc:home.web.cern.ch--jack
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:jack ;
+        jumper:hasTag     jmpbc:cern ;
+        jumper:url        "http://home.web.cern.ch/"^^xsd:anyURI .
 
-jmpbc:infomation  a  jumper:Tag .
+jmpbc:www.sport.fr--tom
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:tom ;
+        jumper:hasTag     jmpbc:sport ;
+        jumper:url        "http://www.sport.fr/"^^xsd:anyURI .
 
-jmpbc:football  a          jumper:Tag ;
-        jumper:isSubTagOf  jmpbc:sport .
+jmpbc:science  a          jumper:Tag ;
+        jumper:hasSubTag  jmpbc:cern .
+
+jmpbc:www.sciencemag.org--tom
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:tom ;
+        jumper:hasTag     jmpbc:science ;
+        jumper:url        "http://www.sciencemag.org/"^^xsd:anyURI .
+
+jmpbc:tabletennis.sport.org.cn--tom
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:tom ;
+        jumper:hasTag     jmpbc:table_tennis_china ;
+        jumper:url        "http://tabletennis.sport.org.cn/"^^xsd:anyURI .
 
 jmpbc:tennis  a            jumper:Tag ;
         jumper:isSubTagOf  jmpbc:sport .
 
-jmpbc:sport  a  jumper:Tag .
+jmpbc:football  a          jumper:Tag ;
+        jumper:isSubTagOf  jmpbc:sport .
 
-jmpbc:science  a  jumper:Tag .
+jmpbc:www.fifa.com-worldcup--tom
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:tom ;
+        jumper:hasTag     jmpbc:sport ;
+        jumper:url        "http://www.fifa.com/worldcup/"^^xsd:anyURI .
 
-jmpbc:lhc  a               jumper:Tag ;
+jmpbc:basketball  a        jumper:Tag ;
+        jumper:isSubTagOf  jmpbc:sport .
+
+jmpbc:cern  a              jumper:Tag ;
         jumper:isSubTagOf  jmpbc:science .
+
+jmpbc:www.nba.com--tom
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:tom ;
+        jumper:hasTag     jmpbc:basketball ;
+        jumper:url        "http://www.nba.com/"^^xsd:anyURI .
 
 jmpbc:culture  a  jumper:Tag .
 
-jmpbc:home.web.cern.ch--jack
+jmpbc:table_tennis  a      jumper:Tag ;
+        jumper:isSubTagOf  jmpbc:sport .
+
+jmpbc:www.sportengland.org--tom
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:tom ;
+        jumper:hasTag     jmpbc:sport ;
+        jumper:url        "http://www.sportengland.org/"^^xsd:anyURI .
+
+jmpbc:table_tennis_china
+        a                  jumper:Tag ;
+        jumper:isSubTagOf  jmpbc:table_tennis .
+
+jmpbc:www.teamusa.org-USA-Table-Tennis.aspx-tom
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:tom ;
+        jumper:hasTag     jmpbc:table_tennis ;
+        jumper:url        "http://www.teamusa.org/USA-Table-Tennis.aspx"^^xsd:anyURI .
+
+jmpbc:www.bbc.com-sport-0--tom
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:tom ;
+        jumper:hasTag     jmpbc:sport ;
+        jumper:url        "http://www.bbc.com/sport/0/"^^xsd:anyURI .
+
+jmpbc:jack  a   jumper:User .
+
+jmpbc:www.tennis.com--tom
+        a                 jumper:FavoriteLink ;
+        jumper:belongsTo  jmpbc:tom ;
+        jumper:hasTag     jmpbc:tennis ;
+        jumper:url        "http://www.tennis.com/"^^xsd:anyURI .
+
+jmpbc:tom  a    jumper:User .
+
+jmpbc:sport  a            jumper:Tag ;
+        jumper:hasSubTag  jmpbc:table_tennis_china , jmpbc:football , jmpbc:basketball , jmpbc:tennis , jmpbc:table_tennis .
+
+jmpbc:www.fifa.com-worldcup--jack
         a                 jumper:FavoriteLink ;
         jumper:belongsTo  jmpbc:jack ;
-        jumper:hasTag     jmpbc:lhc , jmpbc:nuclear_science ;
-        jumper:url        "http://home.web.cern.ch/"^^xsd:anyURI .
-
-jmpbc:nuclear_science_info
-        a                  jumper:Tag ;
-        jumper:isSubTagOf  jmpbc:information .
-
-jmpbc:pingpong  a          jumper:Tag ;
-        jumper:isSubTagOf  jmpbc:sport .
+        jumper:hasTag     jmpbc:football ;
+        jumper:url        "http://www.fifa.com/worldcup/"^^xsd:anyURI .
