@@ -1,22 +1,15 @@
 package jumper.sma.agent;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
-import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFDataMgr;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.update.UpdateAction;
-import com.hp.hpl.jena.update.UpdateFactory;
-import com.hp.hpl.jena.update.UpdateRequest;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
@@ -30,18 +23,26 @@ public class JMPBCAdmin extends Agent {
 	
 	/*Elements needed for inserting a link: userid, url, operation, tags*/
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7177372154628847865L;
 	public final static AID identification = new AID("JMPBCAdmin", AID.ISLOCALNAME);
 	private static Logger logger = Logger.getLogger("Agents.JMPBCAdmin");
 	
 	@Override
 	protected void setup() {
-		// TODO Auto-generated method stub
 		super.setup();
 		
 		addBehaviour(new OperationExecuter());
 	}
 	
 	private class OperationExecuter extends Behaviour{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -7192722666471439623L;
 
 		@Override
 		public void action() {
@@ -53,12 +54,8 @@ public class JMPBCAdmin extends Agent {
 				RequestBean rb = JMPMessageParser.toObject(message.getContent());
 				
 				//Check firstly the existence of the user
-				if(!existenceVerification(rb.getUserid().toLowerCase())){
-					logger.warning(myAgent.getAID().getLocalName() + ": No corresponding ID.");
-					return;
-				}
+				existenceVerification(rb.getUserid().toLowerCase());
 				
-				logger.info(getAID().getLocalName() + " comfirmed the uniqueness of ID.");
 				updateOperation(rb);
 				
 			} else{
@@ -66,7 +63,7 @@ public class JMPBCAdmin extends Agent {
 			}
 		}
 		
-		private boolean existenceVerification(String userid){
+		private void existenceVerification(String userid){
 			String extistenceQuery = "SELECT ?user " +
 									 "WHERE{" + 
 									 "	?user a jumper:User." +
@@ -74,10 +71,12 @@ public class JMPBCAdmin extends Agent {
 			Query equery = QueryFactory.create(JMPKBModel.getInstance().getPrefix() + extistenceQuery);
 			QueryExecution qexe = QueryExecutionFactory.create(equery, JMPKBModel.getInstance().getModel());
 			ResultSet resultSet = qexe.execSelect();
-			if(resultSet.hasNext()){
-				return true;
-			} else{
-				return false;
+			if(!resultSet.hasNext()){
+				String insertUser = "INSERT DATA {" +
+									"jmpbc:" + userid + " a jumper:User.}";
+				
+				JMPKBModel.getInstance().runUpdate(insertUser);
+				logger.info(getLocalName() + " can't find a corresponding user, so create this new user: " + userid);
 			}
 		}
 		
