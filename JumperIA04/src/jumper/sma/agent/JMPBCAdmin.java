@@ -1,15 +1,18 @@
 package jumper.sma.agent;
 
+import java.security.MessageDigest;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
+
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.ResultSet;
+
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
@@ -88,7 +91,13 @@ public class JMPBCAdmin extends Agent {
 		
 		private void constructLink(String url, LinkedHashMap<String, String> tags, String id){
 			//Create link
-			String linkID = url.substring(7).replaceAll("/", "-") + "-" + id ;
+			String linkID = MD5(url + "-" + id);
+						
+			if(linkID == null){
+				logger.warning("Failed to generate the linkID");
+				return;
+			}
+			
 			String createFL = 	"INSERT {" +
 								"jmpbc:" + linkID + " a jumper:FavoriteLink;" +
 								"jumper:url \"" + url + "\"^^xsd:anyURI;";
@@ -107,16 +116,17 @@ public class JMPBCAdmin extends Agent {
 				String createTag = 	"INSERT{" +
 						"jmpbc:" + tag + " a jumper:Tag;";
 				if(uTag != null && !uTag.isEmpty()){
-					createTag += "jumper:isSubTagOf jmpbc:" + uTag;
+					createTag += "jumper:isSubTagOf jmpbc:" + uTag + ".";
 				}
 				createTag += "}WHERE{" +
 							 "	 FILTER NOT EXISTS{" + 
 							 "jmpbc:" + tag + " a jumper:Tag;";
 				if(uTag != null && !uTag.isEmpty()){
-					createTag += "	jumper:isSubTagOf jmpbc:" + uTag;
+					createTag += "	jumper:isSubTagOf jmpbc:" + uTag + ".";
 				}
 				
 				createTag += "}}";
+				
 				JMPKBModel.getInstance().runUpdate(createTag);
 				createFL += "	jumper:hasTag jmpbc:" + tag + ";";
 				
@@ -137,11 +147,43 @@ public class JMPBCAdmin extends Agent {
 			createFL += "jumper:belongsTo jmpbc:" + id +".}" +
 						"WHERE{" + 
 						"	FILTER NOT EXISTS{" + 
-						"		jmpbc:" + linkID + " a jumper:FavoriteLink;}}";
-
+						"		?link a jumper:FavoriteLink;" +
+						"			jumper:belongsTo jmpbc:" + id +";" +
+						"			jumper:url \"" + url + "\"^^xsd:anyURI.}}";		
+			
+			logger.info(createFL);
 			JMPKBModel.getInstance().runUpdate(createFL);
 			
 			logger.info(getAID().getLocalName() + " complete the operation.");
+		}
+		
+		private String MD5(String inStr) {
+			MessageDigest md5 = null;
+			try {
+				md5 = MessageDigest.getInstance("MD5");
+			} catch (Exception e) {
+				System.out.println(e.toString());
+				e.printStackTrace();
+				return "";
+			}
+			char[] charArray = inStr.toCharArray();
+			byte[] byteArray = new byte[charArray.length];
+
+			for (int i = 0; i < charArray.length; i++)
+				byteArray[i] = (byte) charArray[i];
+
+			byte[] md5Bytes = md5.digest(byteArray);
+
+			StringBuffer hexValue = new StringBuffer();
+
+			for (int i = 0; i < md5Bytes.length; i++) {
+				int val = ((int) md5Bytes[i]) & 0xff;
+				if (val < 16)
+					hexValue.append("0");
+				hexValue.append(Integer.toHexString(val));
+			}
+
+			return hexValue.toString();
 		}
 		
 		@Override
